@@ -329,20 +329,38 @@ async def voice_chat_with_ai(user_id: str, file: UploadFile = File(...)):
         You are NutriVoice, an AI health assistant.
         User's recent food history: {context_str}
         
-        Listen to the audio and respond helpfully and concisely.
-        If they ask about their history, refer to the data provided above.
+        Listen to the audio and provide:
+        1. A 'transcription' of exactly what the user said (or a clear summary if noisy).
+        2. A helpful and concise 'response' to their query.
+        
+        Return the result in strictly this JSON format:
+        {{
+            "transcription": "user speech here",
+            "response": "your advice here"
+        }}
         """
         
         # 4. Analyze Audio
-        ai_response = analyze_audio(audio_bytes, mime_type=file.content_type, prompt=prompt)
+        raw_ai_response = analyze_audio(audio_bytes, mime_type=file.content_type, prompt=prompt)
         
+        import json
+        try:
+            # Clean and parse JSON
+            clean_json = raw_ai_response.replace("```json", "").replace("```", "").strip()
+            result = json.loads(clean_json)
+            transcription = result.get("transcription", "Voice Message")
+            ai_response = result.get("response", raw_ai_response)
+        except:
+            transcription = "Voice Message"
+            ai_response = raw_ai_response
+
         # 5. Store in Firebase
         try:
             chat_ref = db.collection(u'chats').document()
             chat_ref.set({
                 u'user_id': user_id,
                 u'role': u'user',
-                u'content': u"🎤 (Voice Message)",
+                u'content': f"🎤 {transcription}",
                 u'timestamp': datetime.now()
             })
             chat_ref_ai = db.collection(u'chats').document()
@@ -355,7 +373,7 @@ async def voice_chat_with_ai(user_id: str, file: UploadFile = File(...)):
         except Exception as e:
             print(f"Error saving voice chat to Firestore: {e}")
 
-        return {"response": ai_response}
+        return {"transcription": transcription, "response": ai_response}
 
     except Exception as e:
         print(f"❌ NutriVoice Error: {e}")
