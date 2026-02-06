@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+firebase-admin
+google-generativeai
+streamlit
+pydantic
+python-dotenv
+requests
+pillow
