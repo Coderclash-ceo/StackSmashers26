@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fitness Integration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-[#0d1c12] dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-background-light dark:bg-background-dark overflow-x-hidden shadow-2xl">
+<!-- Header -->
+<header class="flex items-center px-4 pt-6 pb-2 justify-between sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-10">
+<button class="text-[#0d1c12] dark:text-white flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios</span>
+</button>
+<h1 class="text-[#0d1c12] dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Sync with Fitness Apps</h1>
+<div class="size-10"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 px-4 py-2">
+<!-- Intro Text -->
+<div class="mb-6 px-2 text-center">
+<p class="text-[#4b5563] dark:text-gray-400 text-sm font-normal leading-relaxed">
+                    Connect your favorite fitness apps to automatically sync your activity, steps, and nutrition data for a holistic view of your health.
+                </p>
+</div>
+<!-- Success Message Toast (Subtle Style) -->
+<div class="mb-6 flex items-center gap-3 bg-primary/10 border border-primary/20 p-3 rounded-xl">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+<p class="text-xs font-medium text-[#0d1c12] dark:text-primary">All data is encrypted and synced securely.</p>
+</div>
+<!-- Integration Cards -->
+<div class="flex flex-col gap-4">
+<!-- Google Fit Card -->
+<div class="flex items-center justify-between gap-4 rounded-xl bg-white dark:bg-[#1a2e21] p-4 shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex flex-1 flex-col gap-3">
+<div class="flex flex-col gap-1">
+<h3 class="text-[#0d1c12] dark:text-white text-base font-bold">Google Fit</h3>
+<p class="text-[#4b5563] dark:text-gray-400 text-xs leading-normal">Sync daily steps, heart rate, and active minutes.</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-[#0d1c12] dark:text-primary text-sm font-semibold transition-all hover:bg-primary/20">
+                            Connect
+                        </button>
+</div>
+<div class="size-16 rounded-xl bg-center bg-no-repeat bg-cover shadow-inner" data-alt="Google Fit colorful logo icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5sU0FsMVIPWPORZ_svJ_6bxNYvUuNfAMvZrIEih_-tm6UQE1GpuHLF7kJYtU_97iE-_B8e984R381a5vOLZYQAj5CR8M5i-CkYxDCp_qrA0OEURrkOtXlY2hW7U0EhfOsBtt2VGKIM1pBIk1dw_QleY1rGdSrgTQ3IugeJ2IXtRzd-yBrBkas2QEq-jYY_OvA3vAL95AJtfCP0_6PD7AOrD1Wzx3Z_C2VPMI5Ga88ld7XuoASF-awKkkGmygVoHd9I7naSWdehdYZ");'>
+</div>
+</div>
+<!-- Fitbit Card -->
+<div class="flex items-center justify-between gap-4 rounded-xl bg-white dark:bg-[#1a2e21] p-4 shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex flex-1 flex-col gap-3">
+<div class="flex flex-col gap-1">
+<h3 class="text-[#0d1c12] dark:text-white text-base font-bold">Fitbit</h3>
+<p class="text-[#4b5563] dark:text-gray-400 text-xs leading-normal">Track your intense workouts, sleep cycles, and daily goals.</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-[#0d1c12] dark:text-primary text-sm font-semibold transition-all hover:bg-primary/20">
+                            Connect
+                        </button>
+</div>
+<div class="size-16 rounded-xl bg-center bg-no-repeat bg-cover shadow-inner" data-alt="Fitbit logo icon with teal background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBu19Z4EcPGiHZdLgEChcINMmZa4F99_3N2MPbYUGBjqRkfdgzo2UCgSEvZs6K-_DR7aHG7TIbKPu8_HpELYu8lSpZXzWjUoY9Cfm5lVkOSCae-WomALAQjbCndntACDUc9kjWnI0v1nleTVpeW-mg5d11erkIDsYqXodX_p1e-PeUxHIp3kRlowXb6X13inJGKw71N3IfDGOEYboM1z-D0PJ-DRBgsB8k8w1JUaw7rvM4fK8pGuO123k-zM6-0dBGfadNpffEJzio");'>
+</div>
+</div>
+<!-- Apple Health Card -->
+<div class="flex items-center justify-between gap-4 rounded-xl bg-white dark:bg-[#1a2e21] p-4 shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex flex-1 flex-col gap-3">
+<div class="flex flex-col gap-1">
+<h3 class="text-[#0d1c12] dark:text-white text-base font-bold">Apple Health</h3>
+<p class="text-[#4b5563] dark:text-gray-400 text-xs leading-normal">Merge nutrition data with HealthKit for detailed analysis.</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-[#0d1c12] dark:text-primary text-sm font-semibold transition-all hover:bg-primary/20">
+                            Connect
+                        </button>
+</div>
+<div class="size-16 rounded-xl bg-center bg-no-repeat bg-cover shadow-inner" data-alt="Apple Health heart logo icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIzX3sD7zgL3Iez56UHFu4wp2hq-YwGB-hZA_vD3Ryz9MpPnDM6q7ChtWjEpNXHjGYfQ_DbkNBzIXUkZscAN_cC16AwH6Qw5lGT6fLpm3dT5VURTVoE5FtFETgQtJrjf49KrqHenI5MOQ0aDxfUFCpzxQGSBLwSf71qlkG_JsSMKLoOWw9E8-nQ1YOnEZ2jNZ57ZLcQydHijsMaRRgwJf0z0SC1mSlJ1_mdwzkbOGcUcSZ1D6PxFHPIKMFhk8f_RbkDsR9c5-UX55R");'>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom CTA -->
+<footer class="p-6 sticky bottom-0 bg-background-light dark:bg-background-dark border-t border-black/5 dark:border-white/5">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-[#102216] font-bold text-base py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">sync</span>
+                Sync Nutrition Data
+            </button>
+<p class="mt-4 text-center text-[10px] text-gray-500 uppercase tracking-widest font-semibold">
+                Last synced: Just now
+            </p>
+</footer>
+</div>
+</body></html>
