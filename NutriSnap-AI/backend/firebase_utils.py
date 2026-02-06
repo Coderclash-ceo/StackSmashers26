@@ -5,8 +5,14 @@ import json
 import base64
 import tempfile
 from dotenv import load_dotenv
+import datetime
 
-load_dotenv()
+load_dotenv(override=True)
+with open("debug_firebase.log", "a") as f:
+    f.write(f"\n--- {datetime.datetime.now()} ---\n")
+    f.write(f"CWD: {os.getcwd()}\n")
+    f.write(f"FIREBASE_CREDENTIALS_PATH: {os.getenv('FIREBASE_CREDENTIALS_PATH')}\n")
+    f.write(f"File exists? {os.path.exists(os.getenv('FIREBASE_CREDENTIALS_PATH', ''))}\n")
 
 
 def _write_temp_cred_file(json_str: str) -> str:
@@ -69,3 +75,5 @@ def initialize_firebase():
 
 # Initialize on module load
 db = initialize_firebase()
+with open("debug_firebase.log", "a") as f:
+    f.write(f"DB Object initialized: {db is not None}\n")

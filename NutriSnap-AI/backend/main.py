@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 # Force reload to pick up new .env changes
-from backend.models import AnalysisResponse, NutritionInfo, ChatRequest
+from backend.models import AnalysisResponse, NutritionInfo, ChatRequest, UserRegister, UserLogin
 from backend.integration import FitnessIntegration
 from backend.firebase_utils import db
 from datetime import datetime
@@ -11,6 +11,7 @@ from ai_core.gemini_client import analyze_food_image, generate_text, analyze_aud
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
+import bcrypt
 
 app = FastAPI(title="Food Vision API")
 
@@ -397,3 +398,50 @@ async def get_chats(user_id: str):
         except:
             raise HTTPException(status_code=500, detail=f"Failed to fetch chats: {str(e)}")
 
+
+@app.post("/register")
+async def register_user(user: UserRegister):
+    if not db:
+        raise HTTPException(status_code=503, detail="Database not initialized")
+    
+    # Check if user exists
+    users_ref = db.collection("users")
+    existing_user = users_ref.where("email", "==", user.email).limit(1).get()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="User with this email already exists")
+    
+    # Hash password
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), salt).decode('utf-8')
+    
+    # Create user
+    new_user_ref = users_ref.document()
+    new_user_ref.set({
+        "full_name": user.full_name,
+        "email": user.email,
+        "password": hashed_password,
+        "created_at": datetime.now()
+    })
+    
+    return {"message": "User registered successfully", "user_id": new_user_ref.id}
+
+@app.post("/login")
+async def login_user(user: UserLogin):
+    if not db:
+        raise HTTPException(status_code=503, detail="Database not initialized")
+    
+    users_ref = db.collection("users")
+    user_docs = users_ref.where("email", "==", user.email).limit(1).get()
+    
+    if not user_docs:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    user_data = user_docs[0].to_dict()
+    if not bcrypt.checkpw(user.password.encode('utf-8'), user_data["password"].encode('utf-8')):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    return {
+        "message": "Login successful",
+        "user_id": user_docs[0].id,
+        "full_name": user_data.get("full_name")
+    }
