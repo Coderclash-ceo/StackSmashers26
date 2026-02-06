@@ -85,3 +85,23 @@ export async function voiceChat(userId: string, file: File) {
   if (!res.ok) throw new Error(await res.text())
   return res.json()
 }
+
+export async function register(userData: any) {
+  const res = await fetch(`${BACKEND_URL}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  })
+  if (!res.ok) throw new Error(await res.text())
+  return res.json()
+}
+
+export async function login(credentials: any) {
+  const res = await fetch(`${BACKEND_URL}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  })
+  if (!res.ok) throw new Error(await res.text())
+  return res.json()
+}

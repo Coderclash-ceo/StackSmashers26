@@ -30,7 +30,8 @@ const Review = () => {
         return;
       }
 
-      const data = await apiAnalyzeImage(file, 'demo_user');
+      const userId = localStorage.getItem("user_id") || "demo_user";
+      const data = await apiAnalyzeImage(file, userId);
       // Expecting backend AnalysisResponse { nutrition, message, fitness_sync_status }
       if (data && data.nutrition) {
         setAnalysisResult(data.nutrition);

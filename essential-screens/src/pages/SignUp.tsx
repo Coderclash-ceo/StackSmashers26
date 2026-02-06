@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { register } from "@/lib/api";
+import { toast } from "@/hooks/use-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -8,17 +10,39 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!fullName || !email || !password) {
-      alert("Please fill in all details before creating an account.");
+      toast({
+        title: "Error",
+        description: "Please fill in all details.",
+        variant: "destructive"
+      });
       return;
     }
 
-    // Navigate directly to capture screen after signup
-    navigate("/capture");
+    setIsLoading(true);
+    try {
+      const result = await register({ full_name: fullName, email, password });
+      localStorage.setItem("user_id", result.user_id);
+      localStorage.setItem("full_name", fullName);
+      toast({
+        title: "Success",
+        description: "Account created successfully!",
+      });
+      navigate("/capture");
+    } catch (error: any) {
+      toast({
+        title: "Registration Failed",
+        description: error.message || "Something went wrong.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSocialLogin = (platform: 'google' | 'apple') => {
@@ -107,9 +131,10 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full gradient-primary text-primary-foreground font-medium py-3 px-6 rounded-full hover:opacity-90 hover:scale-[1.02] transition-all duration-300 mt-2 shadow-lg glow-primary"
+            disabled={isLoading}
+            className="w-full gradient-primary text-primary-foreground font-medium py-3 px-6 rounded-full hover:opacity-90 hover:scale-[1.02] transition-all duration-300 mt-2 shadow-lg glow-primary flex items-center justify-center gap-2"
           >
-            Create Account
+            {isLoading ? <Loader2 className="animate-spin" size={20} /> : "Create Account"}
           </button>
         </form>
 

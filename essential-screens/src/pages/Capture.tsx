@@ -103,9 +103,9 @@ const Capture = () => {
           </button>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
-              <span className="text-xs font-medium">AR</span>
+              <span className="text-xs font-medium">{localStorage.getItem("full_name")?.split(' ').map(n => n[0]).join('') || "US"}</span>
             </div>
-            <span className="text-sm text-foreground">Alex Rivera</span>
+            <span className="text-sm text-foreground">{localStorage.getItem("full_name") || "User"}</span>
           </div>
         </div>
       </header>

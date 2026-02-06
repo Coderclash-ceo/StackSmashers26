@@ -9,9 +9,10 @@ const History = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchHistory = async () => {
+        const loadHistory = async () => {
+            const userId = localStorage.getItem("user_id") || "demo_user";
             try {
-                const data = await getHistory('demo_user');
+                const data = await getHistory(userId);
                 if (data && data.history) {
                     setHistoryItems(data.history);
                 }
@@ -21,7 +22,7 @@ const History = () => {
                 setIsLoading(false);
             }
         };
-        fetchHistory();
+        loadHistory();
     }, []);
 
     const formatDate = (isoStr: string) => {

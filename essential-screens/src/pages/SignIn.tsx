@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { login } from "@/lib/api";
+import { toast } from "@/hooks/use-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Parallax Tilt Effect
   const x = useMotionValue(0);
@@ -23,13 +26,36 @@ const SignIn = () => {
     y.set(event.clientY - centerY);
   };
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      alert("Please fill in all details before signing in.");
+      toast({
+        title: "Error",
+        description: "Please fill in all details.",
+        variant: "destructive"
+      });
       return;
     }
-    navigate("/capture");
+
+    setIsLoading(true);
+    try {
+      const result = await login({ email, password });
+      localStorage.setItem("user_id", result.user_id);
+      localStorage.setItem("full_name", result.full_name);
+      toast({
+        title: "Welcome back!",
+        description: `Logged in as ${result.full_name}`,
+      });
+      navigate("/capture");
+    } catch (error: any) {
+      toast({
+        title: "Login Failed",
+        description: error.message || "Invalid email or password.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSocialLogin = (platform: 'google' | 'apple') => {
@@ -102,11 +128,12 @@ const SignIn = () => {
           </div>
 
           <motion.button
+            disabled={isLoading}
             whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(57,255,20,0.4)" }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-neon-green text-black font-bold py-3.5 rounded-full shadow-[0_0_15px_rgba(57,255,20,0.3)] transition-all"
+            className="w-full bg-neon-green text-black font-bold py-3.5 rounded-full shadow-[0_0_15px_rgba(57,255,20,0.3)] transition-all flex items-center justify-center gap-2"
           >
-            Sign In
+            {isLoading ? <Loader2 className="animate-spin" size={20} /> : "Sign In"}
           </motion.button>
 
           <motion.button
