@@ -50,7 +50,7 @@ const History = () => {
                 <h1 className="text-xl font-semibold text-foreground">Food History</h1>
             </header>
 
-            <main className="flex-1 p-6">
+            <main className="flex-1 p-6 overflow-y-auto custom-scrollbar">
                 <div className="max-w-md mx-auto space-y-4">
                     {isLoading ? (
                         <div className="flex justify-center py-20">

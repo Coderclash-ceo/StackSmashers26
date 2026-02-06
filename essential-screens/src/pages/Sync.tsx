@@ -131,12 +131,16 @@ const Sync = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
-              <span className="text-xs font-medium">AR</span>
+              <span className="text-xs font-medium">{localStorage.getItem("full_name")?.split(' ').map(n => n[0]).join('') || "US"}</span>
             </div>
-            <span className="text-sm text-foreground">Alex Rivera</span>
+            <span className="text-sm text-foreground hidden md:block">{localStorage.getItem("full_name")?.split(' ')[0] || "User"}</span>
           </div>
           <button
-            onClick={() => navigate("/sign-in")}
+            onClick={() => {
+              localStorage.removeItem("user_id");
+              localStorage.removeItem("full_name");
+              navigate("/signin");
+            }}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Logout
@@ -163,7 +167,7 @@ const Sync = () => {
       )}
 
       {/* Main Content */}
-      <main className="px-6 py-8 max-w-5xl mx-auto">
+      <main className="px-6 py-8 max-w-5xl mx-auto h-[calc(100vh-72px)] overflow-y-auto custom-scrollbar">
         <div className="text-center mb-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <h1 className="text-4xl font-bold text-foreground mb-2">
             Connect <span className="text-gradient">Devices</span>

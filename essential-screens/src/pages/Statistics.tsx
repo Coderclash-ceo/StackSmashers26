@@ -12,8 +12,9 @@ const Statistics = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            const userId = localStorage.getItem("user_id") || "demo_user";
             try {
-                const data = await getHistory('demo_user');
+                const data = await getHistory(userId);
                 if (data && data.history) {
                     processData(data.history);
                 }
@@ -79,7 +80,7 @@ const Statistics = () => {
                 <h1 className="text-xl font-semibold text-foreground">Statistics</h1>
             </header>
 
-            <main className="flex-1 p-6 scrollbar-hide">
+            <main className="flex-1 p-6 overflow-y-auto custom-scrollbar">
                 <div className="max-w-md mx-auto space-y-6">
                     {isLoading ? (
                         <div className="flex justify-center py-20">
