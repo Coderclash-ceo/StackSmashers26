@@ -22,13 +22,6 @@ const Nutrients = () => {
   const foodName = data?.food_name || "Unknown Food";
   const calories = data?.calories || 0;
 
-  const micronutrients = data?.micronutrients || [
-    { label: "Fiber", value: "0g", percentage: 0, dailyValue: "0%" },
-    { label: "Sodium", value: "0mg", percentage: 0, dailyValue: "0%" },
-    { label: "Vitamin D", value: "0mcg", percentage: 0, dailyValue: "0%" },
-    { label: "Iron", value: "0mg", percentage: 0, dailyValue: "0%" },
-    { label: "Potassium", value: "0mg", percentage: 0, dailyValue: "0%" },
-  ];
 
   useEffect(() => {
     setAnimated(true);
@@ -132,29 +125,6 @@ const Nutrients = () => {
           ))}
         </div>
 
-        {/* Micronutrients */}
-        <div className="bg-secondary/30 rounded-2xl p-4 border border-border mb-6 animate-slide-up" style={{ animationDelay: '0.6s' }}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-foreground">Micronutrients</h3>
-            <span className="text-xs text-primary font-medium">% Daily Value</span>
-          </div>
-
-          <div className="space-y-3">
-            {micronutrients.map((nutrient, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <span className="text-sm text-foreground w-20 font-medium">{nutrient.label}</span>
-                <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-primary rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: animated ? `${nutrient.percentage}%` : '0%' }}
-                  ></div>
-                </div>
-                <span className="text-sm font-bold text-foreground w-16 text-right">{nutrient.value}</span>
-                <span className="text-xs text-muted-foreground w-10 text-right">{nutrient.dailyValue}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Actions */}
         <div className="flex gap-3 animate-slide-up" style={{ animationDelay: '0.7s' }}>

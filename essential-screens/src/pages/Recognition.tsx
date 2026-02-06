@@ -22,11 +22,6 @@ const Recognition = () => {
     navigate("/nutrients", { state: { image: imageSrc, data: data } });
   };
 
-  const suggestions = [
-    { label: "Quinoa Salad", active: true },
-    { label: "Avocado Bowl", active: false },
-    { label: "Green Power Salad", active: false },
-  ];
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -56,27 +51,7 @@ const Recognition = () => {
               />
             </div>
 
-            {/* Suggestions */}
-            <div className="mt-4">
-              <p className="text-sm text-foreground mb-3 font-medium">Is this correct?</p>
-              <div className="flex flex-wrap gap-2">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 hover:scale-105 active:scale-95 ${suggestion.active
-                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
-                      : "bg-secondary/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
-                      }`}
-                  >
-                    {suggestion.label}
-                  </button>
-                ))}
-                <button className="px-4 py-2 rounded-full text-sm font-medium bg-secondary/50 border border-border text-muted-foreground hover:border-primary/50 hover:text-foreground flex items-center gap-2 transition-colors">
-                  <Search size={14} />
-                  Something else
-                </button>
-              </div>
-            </div>
+
           </div>
 
           {/* Results */}
