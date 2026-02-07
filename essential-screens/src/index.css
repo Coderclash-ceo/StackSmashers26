@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 120 20% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 120 15% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 120 15% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 82 84% 55%;
+    --primary-foreground: 120 20% 8%;
+
+    --secondary: 120 15% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 120 10% 20%;
+    --muted-foreground: 120 5% 55%;
+
+    --accent: 82 84% 55%;
+    --accent-foreground: 120 20% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 120 15% 20%;
+    --input: 120 15% 18%;
+    --ring: 82 84% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 120 20% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 82 84% 55%;
+    --sidebar-primary-foreground: 120 20% 8%;
+    --sidebar-accent: 120 15% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 120 15% 20%;
+    --sidebar-ring: 82 84% 55%;
+  }
+
+  .dark {
+    --background: 120 20% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 120 15% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 120 15% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 82 84% 55%;
+    --primary-foreground: 120 20% 8%;
+
+    --secondary: 120 15% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 120 10% 20%;
+    --muted-foreground: 120 5% 55%;
+
+    --accent: 82 84% 55%;
+    --accent-foreground: 120 20% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 120 15% 20%;
+    --input: 120 15% 18%;
+    --ring: 82 84% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Custom utilities for NutriScan */
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(82 84% 55%) 0%, hsl(82 70% 45%) 100%);
+  }
+  
+  .gradient-card {
+    background: linear-gradient(180deg, hsl(120 15% 14%) 0%, hsl(120 15% 10%) 100%);
+  }
+  
+  .glow-primary {
+    box-shadow: 0 0 20px hsla(82, 84%, 55%, 0.3);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(82 84% 55%) 0%, hsl(82 70% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-md border border-white/10;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted/80;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 15px hsla(82, 84%, 55%, 0.4);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
