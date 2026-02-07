@@ -1,9 +1,8 @@
-import { TrendingUp, Calendar, Zap } from "lucide-react";
+import { ArrowLeft, TrendingUp, Calendar, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useEffect, useState } from "react";
 import { getHistory } from "../lib/api";
-import Header from "../components/Header";
 
 const Statistics = () => {
     const navigate = useNavigate();
@@ -13,9 +12,8 @@ const Statistics = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userId = localStorage.getItem("user_id") || "demo_user";
             try {
-                const data = await getHistory(userId);
+                const data = await getHistory('demo_user');
                 if (data && data.history) {
                     processData(data.history);
                 }
@@ -71,9 +69,17 @@ const Statistics = () => {
     return (
         <div className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <Header title="Statistics" showBack />
+            <header className="flex items-center gap-4 px-6 py-4 border-b border-border/50 backdrop-blur-md sticky top-0 z-50 bg-background/80">
+                <button
+                    onClick={() => navigate("/capture")}
+                    className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
+                >
+                    <ArrowLeft size={20} className="text-foreground" />
+                </button>
+                <h1 className="text-xl font-semibold text-foreground">Statistics</h1>
+            </header>
 
-            <main className="flex-1 p-6 overflow-y-auto custom-scrollbar">
+            <main className="flex-1 p-6 scrollbar-hide">
                 <div className="max-w-md mx-auto space-y-6">
                     {isLoading ? (
                         <div className="flex justify-center py-20">

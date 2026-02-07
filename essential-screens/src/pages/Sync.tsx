@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { RefreshCw, Check, X, Shield, Lock } from "lucide-react";
 import { useState } from "react";
-import Header from "../components/Header";
 
 const Sync = () => {
   const navigate = useNavigate();
@@ -15,26 +14,12 @@ const Sync = () => {
       return;
     }
     setIsSyncing(true);
-
-    const userId = localStorage.getItem("user_id") || "demo_user";
-
+    // In a real app, this would call a backend sync endpoint
+    // For now we just show the success state immediately or after a short delay
     setTimeout(() => {
       setIsSyncing(false);
       setShowSuccessToast(true);
-
-      // Trigger global notification
-      const saved = localStorage.getItem(`notifications_${userId}`);
-      const notifications = saved ? JSON.parse(saved) : [];
-      notifications.unshift({
-        id: Date.now(),
-        title: "Sync Successful",
-        message: "Your health data has been updated.",
-        time: "Just now",
-        unread: true
-      });
-      localStorage.setItem(`notifications_${userId}`, JSON.stringify(notifications.slice(0, 10)));
-      window.dispatchEvent(new Event("notificationsUpdated"));
-    }, 1500);
+    }, 1000);
   };
 
   const toggleGoogleFit = () => {
@@ -129,7 +114,35 @@ const Sync = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <Header title="Integrations" />
+      <header className="flex items-center justify-between px-6 py-4 border-b border-border/50 backdrop-blur-md sticky top-0 z-50 bg-background/80">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center glow-primary">
+            <RefreshCw size={16} className="text-primary-foreground" />
+          </div>
+          <span className="font-semibold text-foreground">NutriLink</span>
+        </div>
+
+        <nav className="flex items-center gap-8">
+          <button onClick={() => navigate("/capture")} className="text-muted-foreground font-medium text-sm hover:text-foreground transition-colors">Dashboard</button>
+          <button className="text-primary font-medium text-sm border-b-2 border-primary pb-0.5">Integrations</button>
+          <button onClick={() => navigate("/statistics")} className="text-muted-foreground font-medium text-sm hover:text-foreground transition-colors">Analytics</button>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
+              <span className="text-xs font-medium">AR</span>
+            </div>
+            <span className="text-sm text-foreground">Alex Rivera</span>
+          </div>
+          <button
+            onClick={() => navigate("/sign-in")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      </header>
 
       {/* Success Toast */}
       {showSuccessToast && (
@@ -150,7 +163,7 @@ const Sync = () => {
       )}
 
       {/* Main Content */}
-      <main className="px-6 py-8 max-w-5xl mx-auto h-[calc(100vh-72px)] overflow-y-auto custom-scrollbar">
+      <main className="px-6 py-8 max-w-5xl mx-auto">
         <div className="text-center mb-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <h1 className="text-4xl font-bold text-foreground mb-2">
             Connect <span className="text-gradient">Devices</span>
