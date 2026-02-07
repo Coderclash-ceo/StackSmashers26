@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { RefreshCw, Check, X, Shield, Lock } from "lucide-react";
 import { useState } from "react";
+import Header from "../components/Header";
 
 const Sync = () => {
   const navigate = useNavigate();
@@ -14,12 +15,26 @@ const Sync = () => {
       return;
     }
     setIsSyncing(true);
-    // In a real app, this would call a backend sync endpoint
-    // For now we just show the success state immediately or after a short delay
+
+    const userId = localStorage.getItem("user_id") || "demo_user";
+
     setTimeout(() => {
       setIsSyncing(false);
       setShowSuccessToast(true);
-    }, 1000);
+
+      // Trigger global notification
+      const saved = localStorage.getItem(`notifications_${userId}`);
+      const notifications = saved ? JSON.parse(saved) : [];
+      notifications.unshift({
+        id: Date.now(),
+        title: "Sync Successful",
+        message: "Your health data has been updated.",
+        time: "Just now",
+        unread: true
+      });
+      localStorage.setItem(`notifications_${userId}`, JSON.stringify(notifications.slice(0, 10)));
+      window.dispatchEvent(new Event("notificationsUpdated"));
+    }, 1500);
   };
 
   const toggleGoogleFit = () => {
@@ -114,39 +129,7 @@ const Sync = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-border/50 backdrop-blur-md sticky top-0 z-50 bg-background/80">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center glow-primary">
-            <RefreshCw size={16} className="text-primary-foreground" />
-          </div>
-          <span className="font-semibold text-foreground">NutriLink</span>
-        </div>
-
-        <nav className="flex items-center gap-8">
-          <button onClick={() => navigate("/capture")} className="text-muted-foreground font-medium text-sm hover:text-foreground transition-colors">Dashboard</button>
-          <button className="text-primary font-medium text-sm border-b-2 border-primary pb-0.5">Integrations</button>
-          <button onClick={() => navigate("/statistics")} className="text-muted-foreground font-medium text-sm hover:text-foreground transition-colors">Analytics</button>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
-              <span className="text-xs font-medium">{localStorage.getItem("full_name")?.split(' ').map(n => n[0]).join('') || "US"}</span>
-            </div>
-            <span className="text-sm text-foreground hidden md:block">{localStorage.getItem("full_name")?.split(' ')[0] || "User"}</span>
-          </div>
-          <button
-            onClick={() => {
-              localStorage.removeItem("user_id");
-              localStorage.removeItem("full_name");
-              navigate("/signin");
-            }}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+      <Header title="Integrations" />
 
       {/* Success Toast */}
       {showSuccessToast && (

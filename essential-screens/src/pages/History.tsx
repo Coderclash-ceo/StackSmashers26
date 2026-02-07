@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, ChevronRight } from "lucide-react";
+import { Calendar, Clock, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getHistory } from "../lib/api";
+import Header from "../components/Header";
 
 const History = () => {
     const navigate = useNavigate();
@@ -40,15 +41,7 @@ const History = () => {
     return (
         <div className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <header className="flex items-center gap-4 px-6 py-4 border-b border-border/50 backdrop-blur-md sticky top-0 z-50 bg-background/80">
-                <button
-                    onClick={() => navigate("/capture")}
-                    className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
-                >
-                    <ArrowLeft size={20} className="text-foreground" />
-                </button>
-                <h1 className="text-xl font-semibold text-foreground">Food History</h1>
-            </header>
+            <Header title="Food History" showBack />
 
             <main className="flex-1 p-6 overflow-y-auto custom-scrollbar">
                 <div className="max-w-md mx-auto space-y-4">
