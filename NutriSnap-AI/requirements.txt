@@ -1,8 +1,0 @@
-fastapi
-uvicorn
-python-multipart
-python-dotenv
-firebase-admin
-google-generativeai
-pillow
-passlib[bcrypt]
